@@ -14,22 +14,48 @@ try
 		//menu
 		out.println("---------------------------------------------\n\nMENU ");
 		int ch1=0,ch2=0;
-		out.println("1. Check single file \n2. Check multiple files");
+		out.println("1. Check single file \n2. Check multiple files\n");
 		ch1=d.nextInt();
-		out.println("Provide runtime arguments? If yes, enter 1: ");
-		ch2=d.nextInt();
+		Runtime.getRuntime().exec("clear");
+		if(ch1==1)
+		{ out.println("Checking single file...."); }
+		else if(ch1==1)
+		{ out.println("Checking multiple file...."); }
 
-		//runtime args
-		String run_args=null;
+		//runtime argument input
+		out.print("Provide runtime arguments? If yes, enter 1: ");
+		ch2=d.nextInt();
 		if(ch2==1)
 		{
-				out.println("Enter arguments : ");
-				run_args=d.nextLine();
-				run_args=d.nextLine();
+			out.println("Enter number of arguments: ");
+			int nofargs=d.nextInt();
+			String arginput[] = new String[nofargs];
+			for(String x : arginput)
+			{
+				x=d.nextLine();
+				out.println("Argument received: "+x);
+			}
 		}
+		out.println();
+		Runtime.getRuntime().exec("clear");
+
+		if(ch1==1)
+		{ out.println("Checking single file...."); }
+		else if(ch1==1)
+		{ out.println("Checking multiple file...."); }
+
+		if(ch2==1)
+		{
+			out.println("Runtime arguments: ");
+			out.print(arginput[0]);
+			for(int i=1;i<arginput.length;i++)
+			{
+				out.print(", " + arginput[i]);
+			}
+	  }
 
 		//multiple file execution
-		if(ch1==2){ multi_file(run_args); }
+		if(ch1==2){ multi_file(arginput); }
 
 		//single file execution
 		if(ch1==1){
@@ -37,8 +63,9 @@ try
 		String a=d.next();
 		out.println("Compiling file....");
 		runP("javac -cp src "+a+".java");
+		String argstoinsert1=""+insertarg(arginput);
 		out.println("Running file....");
-		runP("java "+a+" "+run_args);
+		runP("java "+a+" "+argstoinsert1);
 		}
    }catch(Exception e){out.println(e.getMessage());}
 	}
@@ -61,8 +88,16 @@ try
 			System.out.println(command + " exitValue() " + pro.exitValue());
 		}
 
+		private static void insertarg(String args[])
+		{
+			for(int i:args)
+			{
+				out.print(args[i]+" ");
+			}
+		}
+
 		//multiple file execution
-		private static void multi_file(String args) throws Exception
+		private static void multi_file(String args[]) throws Exception
 		{
 			Scanner d=new Scanner(System.in);
 			out.println("\nStore all the files in a single folder.");
@@ -94,8 +129,10 @@ try
 			runP("javac -cp src "+foldername+"/"+listOfFiles[i].getName());
 			out.println("Running file....");
 
+			String argstoinsert=""+insertarg(args);
+
 			String execfile=foldername+" "+listOfFiles[i].getName();
-			runP("java -cp "+execfile.replace(".java","")+" "+args);
+			runP("java -cp "+execfile.replace(".java","")+" "+argstoinsert);
  		  Thread.sleep(time*1000);
 
 					}
