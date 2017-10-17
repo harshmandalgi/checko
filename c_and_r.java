@@ -61,17 +61,46 @@ try
 			System.out.println(command + " exitValue() " + pro.exitValue());
 		}
 
-		private static void multi_file(String args)
+		//multiple file execution
+		private static void multi_file(String args) throws Exception
 		{
 			Scanner d=new Scanner(System.in);
 			out.println("\nStore all the files in a single folder.");
+			out.println("Enter the folder name: ");
+			String foldername=d.nextLine();
 			out.println("Enter the path of that folder from the home directory: ");
-			String path=d.next();
-			out.println("enter time in milliseconds to wait ahter each execution: ");
+			String path=d.nextLine();
+
+			File folder = new File(path);
+			File[] listOfFiles = folder.listFiles();
+
+      for (int i = 0; i < listOfFiles.length; i++) {
+      if (listOfFiles[i].isFile()) {
+        System.out.println("File " + listOfFiles[i].getName());
+      } else if (listOfFiles[i].isDirectory()) {
+        System.out.println("Directory " + listOfFiles[i].getName());
+      }
+      }
+
+			out.println("\nEnter time in seconds to wait after each execution: ");
 			int time=d.nextInt();
-			out.println("Press enter to start.....");
+			out.println("Press any key and hit enter to start.....");
 			String ok=d.next();
-			//to continue..
+
+
+			for(int i=0;i<listOfFiles.length;i++){
+			if(!listOfFiles[i].getName().contains(".java")){continue;}
+			out.println("\n\nCompiling file: "+listOfFiles[i].getName());
+			runP("javac -cp src "+foldername+"/"+listOfFiles[i].getName());
+			out.println("Running file....");
+
+			String execfile=foldername+" "+listOfFiles[i].getName();
+			runP("java -cp "+execfile.replace(".java","")+" "+args);
+ 		  Thread.sleep(time*1000);
+
+					}
+
+
 
 		}
 }
