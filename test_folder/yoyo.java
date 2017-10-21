@@ -2,7 +2,7 @@ public class yoyo
 {
 public static void main(String args[])
 {
-System.out.println("This is yoyo.java executed");
+System.out.println("This is yoyo.java executed "+args[0]);
 
 
 }

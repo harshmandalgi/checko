@@ -9,6 +9,7 @@ public class c_and_r{
 public static void main(String args[])
 {
 	Scanner d=new Scanner(System.in);
+	BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
 try
 	{
 		//menu
@@ -19,21 +20,25 @@ try
 		Runtime.getRuntime().exec("clear");
 		if(ch1==1)
 		{ out.println("Checking single file...."); }
-		else if(ch1==1)
+		else if(ch1==2)
 		{ out.println("Checking multiple file...."); }
 
 		//runtime argument input
 		out.print("Provide runtime arguments? If yes, enter 1: ");
 		ch2=d.nextInt();
+               String arginput[]=null;
 		if(ch2==1)
 		{
-			out.println("Enter number of arguments: ");
+			out.println("Enter number of arguments : ");
 			int nofargs=d.nextInt();
-			String arginput[] = new String[nofargs];
-			for(String x : arginput)
+			arginput = new String[nofargs];
+
+			for(int i=0;i<nofargs;i++)
 			{
-				x=d.nextLine();
-				out.println("Argument received: "+x);
+				out.println("Enter argument: ");
+				arginput[i]=br.readLine();
+
+				out.println("Argument received: "+arginput[i]);
 			}
 		}
 		out.println();
@@ -41,7 +46,7 @@ try
 
 		if(ch1==1)
 		{ out.println("Checking single file...."); }
-		else if(ch1==1)
+		else if(ch1==2)
 		{ out.println("Checking multiple file...."); }
 
 		if(ch2==1)
@@ -80,7 +85,7 @@ try
 			}
 		}
 
-		private static void runP(String command) throws Exception {
+	private static void runP(String command) throws Exception {
 			Process pro = Runtime.getRuntime().exec(command);
 			printLines(command + " stdout:", pro.getInputStream());
 			printLines(command + " stderr:", pro.getErrorStream());
@@ -88,16 +93,18 @@ try
 			System.out.println(command + " exitValue() " + pro.exitValue());
 		}
 
-		private static void insertarg(String args[])
+	private static String insertarg(String args[])
 		{
-			for(int i:args)
+			for(String i:args)
 			{
-				out.print(args[i]+" ");
+				String x=i+" ";
+				return(x);
 			}
+			return null;
 		}
 
 		//multiple file execution
-		private static void multi_file(String args[]) throws Exception
+	private static void multi_file(String args[]) throws Exception
 		{
 			Scanner d=new Scanner(System.in);
 			out.println("\nStore all the files in a single folder.");
